@@ -56,7 +56,7 @@ SharpIR::SharpIR(int irPin, long sensorModel) {
     // Define pin as Input
     pinMode (_irPin, INPUT);
     
-    #ifdef ARDUINO
+    #if defined(ARDUINO) && !defined(ESP32)
       analogReference(DEFAULT);
     #endif
 }
@@ -97,9 +97,9 @@ int SharpIR::distance() {
     if (_model==1080) {
         
         // Different expressions required as the Photon has 12 bit ADCs vs 10 bit for Arduinos
-        #ifdef ARDUINO
+        #if defined(ARDUINO) && !defined(ESP32)
           distanceCM = 27.728 * pow(map(ir_val[NB_SAMPLE / 2], 0, 1023, 0, 5000)/1000.0, -1.2045);
-        #elif defined(SPARK)
+        #elif defined(SPARK) || defined(ESP32)
           distanceCM = 27.728 * pow(map(ir_val[NB_SAMPLE / 2], 0, 4095, 0, 5000)/1000.0, -1.2045);
         #endif
 
@@ -109,26 +109,26 @@ int SharpIR::distance() {
         // puntualDistance=61.573*pow(voltFromRaw/1000, -1.1068);
         
         // Different expressions required as the Photon has 12 bit ADCs vs 10 bit for Arduinos
-        #ifdef ARDUINO
+        #if defined(ARDUINO) && !defined(ESP32)
           distanceCM = 60.374 * pow(map(ir_val[NB_SAMPLE / 2], 0, 1023, 0, 5000)/1000.0, -1.16);
-        #elif defined(SPARK)
+        #elif defined(SPARK) || defined(ESP32)
           distanceCM = 60.374 * pow(map(ir_val[NB_SAMPLE / 2], 0, 4095, 0, 5000)/1000.0, -1.16);
         #endif
 
     } else if (_model==430){
 
         // Different expressions required as the Photon has 12 bit ADCs vs 10 bit for Arduinos
-        #ifdef ARDUINO
+        #if defined(ARDUINO) && !defined(ESP32)
           distanceCM = 12.08 * pow(map(ir_val[NB_SAMPLE / 2], 0, 1023, 0, 5000)/1000.0, -1.058);
-        #elif defined(SPARK)
+        #elif defined(SPARK) || defined(ESP32)
           distanceCM = 12.08 * pow(map(ir_val[NB_SAMPLE / 2], 0, 4095, 0, 5000)/1000.0, -1.058);
         #endif
         
     } else if (_model==100500){
         
-        #ifdef ARDUINO
+        #if defined(ARDUINO) && !defined(ESP32)
           current = map(ir_val[NB_SAMPLE / 2], 0, 1023, 0, 5000);
-        #elif defined(SPARK)
+        #elif defined(SPARK) || defined(ESP32)
           current = map(ir_val[NB_SAMPLE / 2], 0, 4095, 0, 5000);
         #endif
         // use the inverse number of distance like in the datasheet (1/L)
