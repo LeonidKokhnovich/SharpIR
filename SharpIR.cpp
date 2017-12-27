@@ -112,7 +112,7 @@ int SharpIR::distance() {
         #if defined(ARDUINO) && !defined(ESP32)
           distanceCM = 60.374 * pow(map(ir_val[NB_SAMPLE / 2], 0, 1023, 0, 5000)/1000.0, -1.16);
         #elif defined(SPARK) || defined(ESP32)
-          distanceCM = 60.374 * pow(map(ir_val[NB_SAMPLE / 2], 0, 4095, 0, 5000)/1000.0, -1.16);
+          distanceCM = 60.374 * pow(map(ir_val[NB_SAMPLE / 2], 0, 4095, 0, 3300)/1000.0, -1.16);
         #endif
 
     } else if (_model==430){
